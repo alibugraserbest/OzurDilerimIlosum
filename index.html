@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Barışalım mı?</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffe6e9; /* Tatlı bir pembe */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; /* Kaydırma çubuklarını gizle */
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+        }
+
+        /* Sevimli bir gif alanı */
+        .gif-container img {
+            width: 150px; /* GIF boyutunu buradan ayarlayabilirsin */
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Hafif gölge ekledim */
+        }
+
+        h1 {
+            color: #d6336c;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #862e9c;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            position: relative;
+            height: 100px; /* Butonların hareket alanı */
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn {
+            background-color: #20c997; /* Yeşil */
+            color: white;
+            z-index: 100;
+        }
+
+        #noBtn {
+            background-color: #ff6b6b; /* Kırmızı */
+            color: white;
+            /*position: absolute; /* Hareket edebilmesi için */
+        }
+
+        /* Evet'e basılınca çıkacak mesaj */
+        #message {
+            display: none;
+            margin-top: 20px;
+            color: #e64980;
+            font-size: 1.5rem;
+            font-weight: bold;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="gif-container">
+            <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3cWN6cmRmOW0xZ2dlNzV3bzZvZGZ3NzgyYmhleTUxZDVmb3F0dWloOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/8PRCzsabUk48CN4q9N/giphy.gif" alt="Üzgün Karakter">
+        </div>
+
+        <h1 id="question">Beni affeder misin İloşum?</h1>
+        <p>Seni üzdüğüm için çok pişmanım, özür dilerim 🥺</p>
+
+        <div class="btn-group">
+            <button id="yesBtn">EVET</button>
+            <button id="noBtn">HAYIR</button>
+        </div>
+
+        <div id="message">
+    Yeeeey! Seni Çok Seviyorum İloşum! ❤️
+    <br> <span style="font-size: 1rem; color: #555;">Bir daha seni hiç üzmeyeceğim. 🙃​</span>
+</div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const question = document.getElementById('question');
+        const message = document.getElementById('message');
+        const gifImage = document.querySelector('.gif-container img');
+
+        // "Hayır" butonunu kaçırma fonksiyonu
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - 200);
+            const y = Math.random() * (window.innerHeight - 200);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+
+        // Telefondan dokunma (Touch) olayı
+        noBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            moveButton();
+        });
+        
+        // Bilgisayar için mouse olayı
+        noBtn.addEventListener('mouseover', moveButton);
+
+        // "Evet" butonuna tıklama olayı
+        yesBtn.addEventListener('click', function() {
+            // Konfeti patlat
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff6b6b', '#f06595', '#cc5de8']
+            });
+
+            // Ekranı güncelle (soruyu ve butonları gizle, mesajı göster)
+            question.style.display = 'none';
+            document.querySelector('.btn-group').style.display = 'none';
+            document.querySelector('p').style.display = 'none';
+            message.style.display = 'block';
+            
+            // --- DÜZELTME 2: SONDAKİ GIF NASIL DEĞİŞTİRİLİR ---
+            // Aşağıdaki satırda tırnak işaretleri " " arasındaki linki silip,
+            // kendi bulduğun yeni GIF linkini yapıştırmalısın.
+            
+            // ŞU ANKİ MUTLU GIF LİNKİ: https://media.giphy.com/media/T86i6yDyOYz7J6dPhf/giphy.gif
+            
+            gifImage.src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmx4YnkzNHpjdG5uamR6N3czZzB1aWRtdGJ5ZGlsOGJnb3JwOHNvNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jUojv1nyZhAdvHlM8g/giphy.gif"; 
+        });
+    </script>
+</body>
+</html>
